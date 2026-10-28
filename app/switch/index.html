@@ -1,0 +1,419 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome | Paw Haven</title>
+
+    <style>
+        :root {
+            --green: #355B48;
+            --dark-green: #254333;
+            --sage: #DCE8D9;
+            --cream: #FAF8F1;
+            --text: #26372D;
+            --muted: #78847A;
+            --white: #FFFFFF;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: var(--cream);
+            color: var(--text);
+        }
+
+        .page {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+        }
+
+        .welcome {
+            background: var(--green);
+            color: var(--white);
+            padding: 38px 9%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-mark {
+            width: 46px;
+            height: 46px;
+            border-radius: 15px;
+            background: var(--sage);
+            color: var(--dark-green);
+            display: grid;
+            place-items: center;
+            font-size: 25px;
+        }
+
+        .brand-name {
+            font-size: 19px;
+            font-weight: 750;
+            letter-spacing: 1px;
+        }
+
+        .brand-caption {
+            margin-top: 4px;
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: #D1E0D2;
+        }
+
+        .welcome-content {
+            max-width: 440px;
+            margin: 50px 0;
+        }
+
+        .eyebrow {
+            color: #D6B98A;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .welcome h1 {
+            font-family: Georgia, serif;
+            font-size: clamp(38px, 4.5vw, 62px);
+            font-weight: 500;
+            line-height: 1.12;
+            margin: 20px 0;
+        }
+
+        .welcome h1 em {
+            color: #D6B98A;
+            font-weight: 400;
+        }
+
+        .welcome-text {
+            max-width: 350px;
+            color: #D4E0D6;
+            font-size: 15px;
+            line-height: 1.9;
+        }
+
+        .animal-art {
+            width: 220px;
+            height: 220px;
+            margin-top: 35px;
+            border: 12px solid rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            background: var(--sage);
+            display: grid;
+            place-items: center;
+            font-size: 115px;
+        }
+
+        .welcome-footer {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            color: #D4E0D6;
+            font-size: 12px;
+        }
+
+        .account-section {
+            padding: 55px 9%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-label {
+            margin-bottom: 14px;
+            color: var(--green);
+            font-size: 11px;
+            font-weight: 750;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .account-section h2 {
+            margin: 0 0 12px;
+            color: var(--dark-green);
+            font-family: Georgia, serif;
+            font-size: clamp(29px, 3vw, 40px);
+            font-weight: 500;
+        }
+
+        .subtitle {
+            margin: 0 0 32px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        #list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .account {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 19px;
+            border: 1px solid #E4E5DA;
+            border-radius: 16px;
+            background: var(--white);
+            color: var(--text);
+            text-decoration: none;
+            transition: transform 0.2s, border-color 0.2s,
+                        box-shadow 0.2s;
+        }
+
+        .account:hover {
+            transform: translateY(-3px);
+            border-color: #A6BBA6;
+            box-shadow: 0 10px 25px rgba(53, 91, 72, 0.09);
+        }
+
+        .account-icon {
+            width: 53px;
+            height: 53px;
+            flex-shrink: 0;
+            border-radius: 14px;
+            background: var(--sage);
+            display: grid;
+            place-items: center;
+            font-size: 25px;
+        }
+
+        .account-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .account-email {
+            font-size: 14px;
+            font-weight: 700;
+            overflow-wrap: anywhere;
+        }
+
+        .account-role {
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .account-arrow {
+            flex-shrink: 0;
+            color: var(--green);
+            font-size: 23px;
+        }
+
+        .notice {
+            margin-top: 25px;
+            padding: 15px;
+            border-radius: 12px;
+            background: #EEF2E9;
+            color: #657566;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .notice strong {
+            color: var(--dark-green);
+        }
+
+        .bottom-note {
+            margin-top: 25px;
+            color: #92998E;
+            font-size: 11px;
+            text-align: center;
+        }
+
+        @media (max-width: 760px) {
+            .page {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome {
+                padding: 25px 7%;
+            }
+
+            .welcome-content {
+                margin: 40px 0 25px;
+            }
+
+            .welcome h1 {
+                font-size: 42px;
+            }
+
+            .animal-art {
+                width: 125px;
+                height: 125px;
+                margin-top: 20px;
+                font-size: 65px;
+            }
+
+            .welcome-footer {
+                margin-top: 15px;
+            }
+
+            .account-section {
+                padding: 40px 7%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="page">
+        <section class="welcome">
+            <div class="brand">
+                <div class="brand-mark">🐾</div>
+                <div>
+                    <div class="brand-name">PAW HAVEN</div>
+                    <div class="brand-caption">ANIMAL RESCUE & ADOPTION</div>
+                </div>
+            </div>
+
+            <div class="welcome-content">
+                <div class="eyebrow">Every paw deserves a home</div>
+
+                <h1>
+                    Small steps.<br>
+                    <em>Second chances.</em>
+                </h1>
+
+                <p class="welcome-text">
+                    A little care can change a life.
+                    Sign in to help animals find the
+                    love and safety they deserve.
+                </p>
+
+                <div class="animal-art" aria-label="Dog illustration">
+                    🐕
+                </div>
+            </div>
+
+            <div class="welcome-footer">
+                Making tails wag, one adoption at a time.
+            </div>
+        </section>
+
+        <section class="account-section">
+            <div class="section-label">Your workspace</div>
+
+            <h2>Welcome back!</h2>
+
+            <p class="subtitle">
+                Choose your account to continue to your workspace.
+            </p>
+
+            <div id="list">
+                <p>Loading accounts...</p>
+            </div>
+
+            <div class="notice">
+                <strong>Development mode</strong><br>
+                These accounts are for local testing.
+                The deployed application uses its configured
+                sign-in process.
+            </div>
+
+            <div class="bottom-note">
+                Made with care for our four-legged friends.
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Replace these with the exact IDs from /dev/users.
+        const ADMIN_ID = 'admin@shelter.org';
+        const USER_ID = 'user@example.com';
+
+        fetch('/dev/users')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Unable to load accounts');
+                }
+                return response.json();
+            })
+            .then(users => {
+                const list = document.getElementById('list');
+                list.replaceChildren();
+
+                const selectedUsers = [
+                    users.find(user =>
+                        user.id.toLowerCase() === ADMIN_ID.toLowerCase() &&
+                        user.roles.includes('Admin')
+                    ),
+                    users.find(user =>
+                        user.id.toLowerCase() === USER_ID.toLowerCase() &&
+                        user.roles.includes('User')
+                    )
+                ].filter(Boolean);
+
+                if (selectedUsers.length === 0) {
+                    list.textContent =
+                        'No matching Admin or User accounts were found.';
+                    return;
+                }
+
+                selectedUsers.forEach(user => {
+                    const isAdmin = user.roles.includes('Admin');
+
+                    const account = document.createElement('a');
+                    account.className = 'account';
+
+                    const nextPage = isAdmin
+                        ? '/landing/index.html'
+                        : '/portal/index.html';
+
+                    account.href = '/dev/login?user='
+                        + encodeURIComponent(user.id)
+                        + '&next='
+                        + encodeURIComponent(nextPage);
+
+                    const icon = document.createElement('div');
+                    icon.className = 'account-icon';
+                    icon.textContent = isAdmin ? '🛠️' : '🐾';
+
+                    const info = document.createElement('div');
+                    info.className = 'account-info';
+
+                    const email = document.createElement('div');
+                    email.className = 'account-email';
+                    email.textContent = user.id;
+
+                    const role = document.createElement('div');
+                    role.className = 'account-role';
+                    role.textContent = isAdmin
+                        ? 'Shelter administration'
+                        : 'Animal adopter';
+
+                    const arrow = document.createElement('div');
+                    arrow.className = 'account-arrow';
+                    arrow.textContent = '→';
+
+                    info.append(email, role);
+                    account.append(icon, info, arrow);
+                    list.appendChild(account);
+                });
+            })
+            .catch(() => {
+                document.getElementById('list').textContent =
+                    'Unable to load accounts. Check that the application is running.';
+            });
+    </script>
+
+    <script src="/shared/i18n.js"></script>
+    <script src="/shared/session-bar.js"></script>
+</body>
+</html>

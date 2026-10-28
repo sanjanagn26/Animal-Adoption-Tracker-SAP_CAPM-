@@ -1,0 +1,712 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Animal Adoption Tracker</title>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        :root {
+            --teal: #087f8c;
+            --teal-dark: #07545b;
+            --mint: #e7f5f3;
+            --bg: #f5f8f8;
+            --ink: #203638;
+            --muted: #718486;
+            --white: #ffffff;
+            --border: #e0ebea;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            background: var(--teal-dark);
+            color: var(--white);
+            padding: 26px 17px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 8px 25px;
+            border-bottom: 1px solid #ffffff30;
+        }
+
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: #ffffff18;
+            color: #b9eee5;
+            flex-shrink: 0;
+        }
+
+        .brand-icon svg {
+            width: 25px;
+            height: 25px;
+        }
+
+        .brand h1 {
+            font-size: 16px;
+            line-height: 1.35;
+            margin: 0;
+        }
+
+        .brand small {
+            display: block;
+            margin-top: 3px;
+            color: #b8d9d8;
+            font-size: 12px;
+        }
+
+        .nav-label {
+            margin: 27px 10px 12px;
+            color: #a8cecc;
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        #navigation {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            color: #e0f0ef;
+            text-decoration: none;
+            border-radius: 9px;
+            font-size: 13px;
+            transition: background .18s, color .18s;
+        }
+
+        .nav-link svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            stroke-width: 1.8;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: #ffffff20;
+            color: #ffffff;
+        }
+
+        .nav-link.active {
+            box-shadow: inset 3px 0 #78d6c9;
+        }
+
+        .sidebar-note {
+            margin: auto 5px 0;
+            padding: 14px;
+            background: #ffffff12;
+            border-radius: 10px;
+            color: #c5e1df;
+            font-size: 12px;
+            line-height: 1.7;
+        }
+
+        .sidebar-note svg {
+            width: 19px;
+            height: 19px;
+            margin-bottom: 8px;
+            color: #9ce0d6;
+        }
+
+        main {
+            flex: 1;
+            min-width: 0;
+            padding: 28px clamp(18px, 4vw, 48px);
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+        }
+
+        .eyebrow {
+            color: var(--teal);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .topbar h2 {
+            margin: 7px 0 0;
+            font-size: clamp(23px, 3vw, 30px);
+            letter-spacing: -.7px;
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            max-width: 100%;
+            overflow-wrap: anywhere;
+            background: var(--white);
+            border: 1px solid var(--border);
+            padding: 10px 15px;
+            border-radius: 30px;
+            color: var(--teal-dark);
+            font-size: 12px;
+        }
+
+        .user-chip svg {
+            width: 17px;
+            height: 17px;
+            flex-shrink: 0;
+        }
+
+        .welcome {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            padding: clamp(24px, 4vw, 38px);
+            margin-bottom: 32px;
+            border-radius: 18px;
+            background: linear-gradient(115deg, #087f8c, #19a69b);
+            color: var(--white);
+        }
+
+        .welcome h3 {
+            margin: 0 0 11px;
+            font-size: clamp(22px, 3vw, 30px);
+        }
+
+        .welcome p {
+            max-width: 520px;
+            margin: 0;
+            color: #e1f7f3;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .welcome-art {
+            display: grid;
+            place-items: center;
+            width: 88px;
+            height: 88px;
+            flex-shrink: 0;
+            border: 1px solid #ffffff45;
+            border-radius: 24px;
+            background: #ffffff17;
+        }
+
+        .welcome-art svg {
+            width: 43px;
+            height: 43px;
+            stroke-width: 1.3;
+        }
+
+        .section-heading {
+            margin: 28px 0 16px;
+        }
+
+        .section-heading h3 {
+            margin: 0;
+            font-size: 19px;
+        }
+
+        .section-heading p {
+            margin: 6px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .tiles {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .tile {
+            display: flex;
+            align-items: center;
+            gap: 19px;
+            width: 100%;
+            min-height: 94px;
+            padding: 18px 22px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            background: var(--white);
+            color: var(--ink);
+            text-decoration: none;
+            transition: border-color .18s, background .18s,
+                        transform .18s, box-shadow .18s;
+        }
+
+        .tile:hover {
+            border-color: #8acdc5;
+            background: #fafffe;
+            transform: translateX(3px);
+            box-shadow: 0 5px 16px #07545b0b;
+        }
+
+        .tile .i {
+            display: grid;
+            place-items: center;
+            width: 52px;
+            height: 52px;
+            flex-shrink: 0;
+            border-radius: 14px;
+            background: var(--mint);
+            color: var(--teal);
+        }
+
+        .tile .i svg {
+            width: 25px;
+            height: 25px;
+            stroke-width: 1.7;
+        }
+
+        .tile-copy {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .tile b {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 15px;
+            font-weight: 650;
+        }
+
+        .tile small {
+            display: block;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .tile-arrow {
+            display: grid;
+            place-items: center;
+            width: 34px;
+            height: 34px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: #f1f8f7;
+            color: var(--teal);
+            transition: background .18s, transform .18s;
+        }
+
+        .tile-arrow svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .tile:hover .tile-arrow {
+            background: #d9f1ed;
+            transform: translate(2px, -2px);
+        }
+
+        .note {
+            padding: 19px;
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--teal);
+            border-radius: 11px;
+            background: var(--white);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .signin {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            padding: 11px 18px;
+            border-radius: 8px;
+            background: var(--teal);
+            color: var(--white);
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .signin:hover {
+            background: var(--teal-dark);
+        }
+
+        footer {
+            margin-top: 35px;
+            padding: 18px 0 8px;
+            border-top: 1px solid var(--border);
+            color: var(--muted);
+            text-align: center;
+            font-size: 11px;
+        }
+
+        @media (max-width: 760px) {
+            .layout {
+                display: block;
+            }
+
+            .sidebar {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .brand {
+                padding-bottom: 14px;
+            }
+
+            .nav-label,
+            .sidebar-note {
+                display: none;
+            }
+
+            #navigation {
+                flex-direction: row;
+                overflow-x: auto;
+                gap: 5px;
+                padding-top: 12px;
+            }
+
+            .nav-link {
+                flex-shrink: 0;
+                padding: 10px;
+                white-space: nowrap;
+            }
+
+            main {
+                padding: 22px 16px;
+            }
+
+            .welcome-art {
+                width: 64px;
+                height: 64px;
+                border-radius: 18px;
+            }
+
+            .welcome-art svg {
+                width: 32px;
+                height: 32px;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .tile {
+                gap: 12px;
+                padding: 15px;
+            }
+
+            .tile .i {
+                width: 43px;
+                height: 43px;
+            }
+
+            .tile .i svg {
+                width: 22px;
+                height: 22px;
+            }
+
+            .tile-arrow {
+                width: 28px;
+                height: 28px;
+            }
+
+            .welcome-art {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="layout">
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">
+                <i data-lucide="heart-handshake"></i>
+            </div>
+            <div>
+                <h1>Animal Adoption</h1>
+                <small>Tracker &amp; Care</small>
+            </div>
+        </div>
+
+        <div class="nav-label">Workspace</div>
+
+        <nav id="navigation">
+            <a class="nav-link active" href="/dashboard/index.html">
+                <i data-lucide="layout-dashboard"></i>
+                <span>Dashboard</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-note">
+            <i data-lucide="heart"></i>
+            <div>Every animal deserves care, safety and a loving home.</div>
+        </div>
+    </aside>
+
+    <main>
+        <header class="topbar">
+            <div>
+                <div class="eyebrow">Animal welfare management</div>
+                <h2>Welcome to your workspace</h2>
+            </div>
+            <div class="user-chip" id="who">
+                <i data-lucide="user-round"></i>
+                <span>Checking access...</span>
+            </div>
+        </header>
+
+        <section class="welcome">
+            <div>
+                <h3>Better care. Happier homes.</h3>
+                <p>
+                    Manage animal records, coordinate shelters and follow
+                    adoption applications from one place.
+                </p>
+            </div>
+            <div class="welcome-art">
+                <i data-lucide="heart-handshake"></i>
+            </div>
+        </section>
+
+        <div id="app">
+            <div class="note">Loading your workspace...</div>
+        </div>
+
+        <footer>
+            Animal Adoption Tracker · Supporting responsible adoption
+        </footer>
+    </main>
+</div>
+
+<script>
+    const ADMIN_APPS = [
+        {
+            i: 'paw-print',
+            t: 'Animal Directory',
+            s: 'View animal profiles, details and adoption availability',
+            u: '/aat.admin.animals/index.html'
+        },
+        {
+            i: 'building-2',
+            t: 'Shelter Network',
+            s: 'Review shelter information and available capacity',
+            u: '/aat.admin.shelters/index.html'
+        },
+        {
+            i: 'clipboard-check',
+            t: 'Adoption Requests',
+            s: 'Review submitted applications and update decisions',
+            u: '/aat.admin.applications/index.html'
+        },
+        {
+            i: 'heart-pulse',
+            t: 'Care & Wellness',
+            s: 'Maintain health checks and treatment records',
+            u: '/aat.admin.health/index.html'
+        },
+        {
+            i: 'house',
+            t: 'Adoption Records',
+            s: 'Review completed adoptions and related documents',
+            u: '/aat.admin.adoptions/index.html'
+        },
+        {
+            i: 'calendar-check',
+            t: 'Follow-up Visits',
+            s: 'Track post-adoption inspections and visits',
+            u: '/aat.admin.inspections/index.html'
+        },
+        {
+            i: 'users',
+            t: 'Account Management',
+            s: 'View and manage adopter accounts',
+            u: '/aat.admin.users/index.html'
+        },
+        {
+            i: 'history',
+            t: 'Activity History',
+            s: 'Review recorded actions and changes',
+            u: '/aat.admin.auditlog/index.html'
+        }
+    ];
+
+    const USER_APPS = [
+        {
+            i: 'search',
+            t: 'Explore Animals',
+            s: 'Discover animals available for adoption and follow your requests',
+            u: '/portal/index.html'
+        }
+    ];
+
+    const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    }[c]));
+
+    const tiles = list =>
+        '<div class="tiles">' +
+        list.map(a => `
+            <a class="tile" href="${a.u}">
+                <span class="i">
+                    <i data-lucide="${a.i}"></i>
+                </span>
+                <span class="tile-copy">
+                    <b>${esc(a.t)}</b>
+                    <small>${esc(a.s)}</small>
+                </span>
+                <span class="tile-arrow">
+                    <i data-lucide="arrow-up-right"></i>
+                </span>
+            </a>
+        `).join('') +
+        '</div>';
+
+    const renderIcons = () => {
+        if (window.lucide) {
+            window.lucide.createIcons();
+        }
+    };
+
+    (async () => {
+        const app = document.getElementById('app');
+        const nav = document.getElementById('navigation');
+        const who = document.getElementById('who');
+
+        renderIcons();
+
+        try {
+            const response = await fetch('/odata/v4/session/me()', {
+                headers: {
+                    Accept: 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Unable to verify session');
+            }
+
+            const me = await response.json();
+            const userId = esc(me.id || 'Signed-in user');
+
+            who.innerHTML = `
+                <i data-lucide="user-round"></i>
+                <span>Signed in: ${userId}</span>
+            `;
+
+            let content = '';
+
+            if (me.isAdmin) {
+                nav.innerHTML += ADMIN_APPS.map(a => `
+                    <a class="nav-link" href="${a.u}">
+                        <i data-lucide="${a.i}"></i>
+                        <span>${esc(a.t)}</span>
+                    </a>
+                `).join('');
+
+                content += `
+                    <section>
+                        <div class="section-heading">
+                            <h3>Administration</h3>
+                            <p>Manage shelter operations and adoption activity.</p>
+                        </div>
+                        ${tiles(ADMIN_APPS)}
+                    </section>
+                `;
+            }
+
+            if (me.isUser) {
+                nav.innerHTML += USER_APPS.map(a => `
+                    <a class="nav-link" href="${a.u}">
+                        <i data-lucide="${a.i}"></i>
+                        <span>${esc(a.t)}</span>
+                    </a>
+                `).join('');
+
+                content += `
+                    <section>
+                        <div class="section-heading">
+                            <h3>Adopter services</h3>
+                            <p>Explore services available to adopters.</p>
+                        </div>
+                        ${tiles(USER_APPS)}
+                    </section>
+                `;
+            }
+
+            if (!content) {
+                content = `
+                    <div class="note">
+                        Your account does not have access yet.
+                        Please ask an administrator to assign the Admin or User role.
+                    </div>
+                `;
+            }
+
+            app.innerHTML = content;
+            renderIcons();
+
+        } catch (error) {
+            who.innerHTML = `
+                <i data-lucide="user-round-x"></i>
+                <span>Not signed in</span>
+            `;
+
+            app.innerHTML = `
+                <div class="note">
+                    Please sign in to access the application.
+                    <br>
+                    <a class="signin" href="/switch/index.html">
+                        <i data-lucide="log-in"></i>
+                        Sign in
+                    </a>
+                </div>
+            `;
+
+            renderIcons();
+        }
+    })();
+</script>
+
+<script src="/shared/i18n.js"></script>
+<script src="/shared/session-bar.js"></script>
+</body>
+</html>

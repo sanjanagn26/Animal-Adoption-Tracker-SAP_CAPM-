@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kindred | Animal Adoption</title>
+    <link rel="stylesheet" href="portal.css">
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="/portal/index.html">
+            <span class="brand-icon">🐾</span>
+            <span class="brand-copy">kindred<span>ANIMAL ADOPTION</span></span>
+        </a>
+
+        <nav id="nav">
+            <button data-route="browse"><span>Explore</span></button>
+            <button data-route="applications"><span>Applications</span></button>
+            <button data-route="adoptions"><span>My adoptions</span></button>
+            <button data-route="profile"><span>My profile</span></button>
+        </nav>
+
+        <div class="account-actions">
+            <a id="lnk-switch" href="/switch/index.html">Switch account</a>
+            <a href="/logout">Sign out ↗</a>
+            <a href="#" id="lnk-lang">हिन्दी</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="page-intro">
+            <span class="eyebrow">A LITTLE LOVE GOES A LONG WAY</span>
+            <div class="intro-line">
+                <div>
+                    <h1>Every paw deserves a home.</h1>
+                    <p>Meet your future companion and find a friend for life.</p>
+                </div>
+                <div class="intro-art" aria-hidden="true">🐕</div>
+            </div>
+        </div>
+
+        <section class="content-area">
+            <div id="view"></div>
+        </section>
+    </main>
+
+    <footer>
+        <span>kindred <span class="footer-dot">●</span></span>
+        <span>Making room for one more paw.</span>
+        <span id="me">Loading account…</span>
+    </footer>
+
+    <div id="modal" class="modal hidden"></div>
+    <div id="toast"></div>
+
+    <script>
+        (function () {
+            var lang = localStorage.getItem('aat_lang') || 'en';
+            var link = document.getElementById('lnk-lang');
+
+            link.textContent = lang === 'hi' ? 'English' : 'हिन्दी';
+            link.onclick = function (event) {
+                event.preventDefault();
+                localStorage.setItem('aat_lang', lang === 'hi' ? 'en' : 'hi');
+                location.reload();
+            };
+
+            fetch('/dev/users')
+                .then(function (response) {
+                    if (!response.ok) {
+                        document.getElementById('lnk-switch').href = '/logout';
+                    }
+                })
+                .catch(function () {
+                    document.getElementById('lnk-switch').href = '/logout';
+                });
+        })();
+    </script>
+
+    <script src="portal.js"></script>
+    <script src="/shared/i18n.js"></script>
+    <script src="/shared/session-bar.js"></script>
+</body>
+</html>
